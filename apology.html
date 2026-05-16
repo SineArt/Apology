@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I'm Sorry ❤️ — A Love Letter</title>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  FONTS — change these links to swap typefaces   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ══════════════════════════════════════════
+       CSS CUSTOM PROPERTIES — edit palette here
+    ══════════════════════════════════════════ */
+    :root {
+      --blush:    #f7c5d5;
+      --rose:     #e8748a;
+      --deep-rose:#c0395a;
+      --lavender: #d4b8e0;
+      --lilac:    #ede0f4;
+      --gold:     #d4a554;
+      --gold-lt:  #f0d080;
+      --cream:    #fff8f5;
+      --white:    #ffffff;
+      --glass-bg: rgba(255,255,255,0.18);
+      --glass-border: rgba(255,255,255,0.42);
+      --text-dark:#3a1a2e;
+      --text-mid: #7a4060;
+    }
+
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ══════════════════════════════════════════
+       ANIMATED GRADIENT BACKGROUND
+    ══════════════════════════════════════════ */
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(
+        135deg,
+        #ffe4ec 0%,
+        #f7d4ee 20%,
+        #e8d4f5 40%,
+        #fce4d6 60%,
+        #ffd6e7 80%,
+        #f0d8f8 100%
+      );
+      background-size: 400% 400%;
+      animation: gradShift 14s ease infinite;
+    }
+
+    @keyframes gradShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ══════════════════════════════════════════
+       FLOATING PETALS CANVAS
+    ══════════════════════════════════════════ */
+    #petalCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════
+       SPARKLE PARTICLES
+    ══════════════════════════════════════════ */
+    .sparkle-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold-lt);
+      animation: sparkleAnim var(--dur, 4s) ease-in-out infinite var(--delay, 0s);
+      opacity: 0;
+      box-shadow: 0 0 6px 2px var(--gold-lt);
+    }
+
+    @keyframes sparkleAnim {
+      0%   { opacity: 0; transform: scale(0) translateY(0); }
+      40%  { opacity: 1; transform: scale(1) translateY(-20px); }
+      70%  { opacity: 0.6; }
+      100% { opacity: 0; transform: scale(0.3) translateY(-60px); }
+    }
+
+    /* ══════════════════════════════════════════
+       MUSIC TOGGLE
+    ══════════════════════════════════════════ */
+    #musicBtn {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 9999;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: transform .3s, box-shadow .3s;
+      box-shadow: 0 4px 20px rgba(200,80,120,.25);
+    }
+
+    #musicBtn:hover { transform: scale(1.12); box-shadow: 0 6px 28px rgba(200,80,120,.4); }
+
+    /* ══════════════════════════════════════════
+       SHARED UTILITY
+    ══════════════════════════════════════════ */
+    section { position: relative; z-index: 1; }
+
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 24px;
+      box-shadow: 0 8px 40px rgba(200,100,160,.15);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .9s cubic-bezier(.25,.46,.45,.94), transform .9s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: var(--deep-rose);
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+
+    .section-sub {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--rose);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* gold divider */
+    .divider {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.2rem auto 2.5rem;
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 1 — HERO
+    ══════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .hero-tag {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--rose);
+      letter-spacing: .08em;
+      animation: fadeDown .8s ease forwards .2s;
+      opacity: 0;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 700;
+      line-height: 1.05;
+      background: linear-gradient(135deg, var(--deep-rose), var(--gold), var(--rose), var(--lavender));
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown .9s ease forwards .4s, heroGrad 6s ease infinite;
+      opacity: 0;
+      filter: drop-shadow(0 4px 24px rgba(192,57,90,.3));
+    }
+
+    @keyframes heroGrad {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-heart {
+      font-size: clamp(3rem, 8vw, 6rem);
+      animation: heartbeat 1.6s ease-in-out infinite, fadeDown .9s ease forwards .6s;
+      opacity: 0;
+      display: inline-block;
+      margin-top: .5rem;
+      filter: drop-shadow(0 0 20px rgba(200,80,120,.6));
+    }
+
+    @keyframes heartbeat {
+      0%   { transform: scale(1); }
+      14%  { transform: scale(1.18); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.12); }
+      70%  { transform: scale(1); }
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 2s;
+    }
+
+    .hero-scroll-hint span {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      color: var(--rose);
+    }
+
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid var(--rose);
+      border-bottom: 2px solid var(--rose);
+      transform: rotate(45deg);
+      animation: bounceDown 1.4s ease-in-out infinite;
+    }
+
+    @keyframes bounceDown {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(8px); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 2 — APOLOGY LETTER
+    ══════════════════════════════════════════ */
+    #letter {
+      padding: 6rem 1.5rem;
+    }
+
+    .letter-card {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+      position: relative;
+    }
+
+    .letter-card::before,
+    .letter-card::after {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 10rem;
+      color: var(--blush);
+      position: absolute;
+      line-height: 1;
+      opacity: .6;
+    }
+
+    .letter-card::before { top: -1rem; left: 1rem; }
+    .letter-card::after  { content: '"'; bottom: -4rem; right: 1rem; }
+
+    .letter-greeting {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--rose);
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── TYPING ANIMATION ── */
+    .typed-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      line-height: 2;
+      color: var(--text-dark);
+      white-space: pre-line;
+    }
+
+    .typed-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: var(--rose);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink .7s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .letter-sign {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      color: var(--deep-rose);
+      text-align: right;
+      margin-top: 2rem;
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 3 — REASONS I LOVE YOU
+    ══════════════════════════════════════════ */
+    #reasons {
+      padding: 6rem 1.5rem;
+    }
+
+    .reasons-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .reason-card {
+      padding: 2rem 1.8rem;
+      text-align: center;
+      transition: transform .35s, box-shadow .35s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reason-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.3), rgba(212,181,224,.15));
+      border-radius: 24px;
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .reason-card:hover::before { opacity: 1; }
+    .reason-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 16px 50px rgba(200,100,160,.25); }
+
+    .reason-emoji {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 1rem;
+      animation: floatEmoji 3.5s ease-in-out infinite;
+    }
+
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-7px); }
+    }
+
+    .reason-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--deep-rose);
+      margin-bottom: .6rem;
+    }
+
+    .reason-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+      font-style: italic;
+    }
+
+    /* stagger delays on cards */
+    .reason-card:nth-child(1) { animation-delay: .1s; }
+    .reason-card:nth-child(2) { animation-delay: .2s; }
+    .reason-card:nth-child(3) { animation-delay: .3s; }
+    .reason-card:nth-child(4) { animation-delay: .4s; }
+    .reason-card:nth-child(5) { animation-delay: .5s; }
+    .reason-card:nth-child(6) { animation-delay: .6s; }
+
+    /* ══════════════════════════════════════════
+       SECTION 4 — MEMORY TIMELINE
+    ══════════════════════════════════════════ */
+    #memories {
+      padding: 6rem 1.5rem;
+    }
+
+    .timeline {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--blush) 10%, var(--lavender) 50%, var(--blush) 90%, transparent);
+      transform: translateX(-50%);
+    }
+
+    .memory-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .memory-item:nth-child(odd)  { flex-direction: row; }
+    .memory-item:nth-child(even) { flex-direction: row-reverse; }
+
+    .memory-content {
+      width: calc(50% - 3rem);
+      padding: 1.8rem;
+      text-align: left;
+    }
+
+    .memory-item:nth-child(even) .memory-content { text-align: right; }
+
+    .memory-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--rose);
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px var(--blush), 0 0 18px var(--rose);
+      z-index: 2;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 4px var(--blush), 0 0 18px var(--rose); }
+      50%       { box-shadow: 0 0 0 8px rgba(232,116,138,.2), 0 0 28px var(--rose); }
+    }
+
+    /* ── PHOTO PLACEHOLDER ── */
+    /* ══ EDIT: Replace .memory-img background with url('your-photo.jpg') ══ */
+    .memory-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--blush), var(--lavender));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      border: 2px dashed var(--glass-border);
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .memory-img::after {
+      content: '📸 Add your photo here';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--text-mid);
+      background: inherit;
+    }
+
+    /* When you add a real image, this hides the placeholder text */
+    .memory-img.has-photo::after { display: none; }
+
+    .memory-date {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+
+    .memory-caption {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--deep-rose);
+      margin-bottom: .4rem;
+    }
+
+    .memory-text {
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-mid);
+    }
+
+    /* Mobile timeline — single column */
+    @media (max-width: 640px) {
+      .timeline::before { left: 20px; }
+      .memory-item,
+      .memory-item:nth-child(even) { flex-direction: column; padding-left: 56px; }
+      .memory-dot { left: 20px; top: 1.5rem; }
+      .memory-content { width: 100%; text-align: left !important; }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 5 — FORGIVE ME (FINAL CTA)
+    ══════════════════════════════════════════ */
+    #forgive {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .forgive-pre {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--rose);
+      margin-bottom: 1rem;
+    }
+
+    .forgive-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 700;
+      color: var(--deep-rose);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 20px rgba(192,57,90,.2));
+    }
+
+    .forgive-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-style: italic;
+      color: var(--text-mid);
+      max-width: 560px;
+      line-height: 1.9;
+      margin-bottom: 3rem;
+    }
+
+    /* ── GLOW BUTTON ── */
+    .glow-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      padding: 1.1rem 3rem;
+      border: none;
+      border-radius: 60px;
+      background: linear-gradient(135deg, var(--rose), var(--deep-rose), var(--gold));
+      background-size: 200% 200%;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      animation: btnGrad 4s ease infinite;
+      box-shadow: 0 0 30px rgba(200,80,120,.5), 0 6px 24px rgba(200,80,120,.4);
+      transition: transform .3s, box-shadow .3s;
+      letter-spacing: .04em;
+    }
+
+    .glow-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 0 55px rgba(200,80,120,.7), 0 12px 36px rgba(200,80,120,.5);
+    }
+
+    .glow-btn .btn-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 64px;
+      border: 2px solid var(--gold-lt);
+      opacity: .6;
+      animation: ringPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1);    opacity: .6; }
+      50%       { transform: scale(1.05); opacity: 0; }
+    }
+
+    @keyframes btnGrad {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── MODAL after clicking Forgive ── */
+    #thankModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      align-items: center;
+      justify-content: center;
+      background: rgba(60,10,40,.55);
+      backdrop-filter: blur(8px);
+      animation: fadeIn .5s ease;
+    }
+
+    #thankModal.open { display: flex; }
+
+    .modal-box {
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal-emoji { font-size: 4rem; display: block; margin-bottom: 1rem; }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--deep-rose);
+      margin-bottom: 1rem;
+    }
+
+    .modal-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1.6rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: 1px solid var(--rose);
+      color: var(--rose);
+      padding: .6rem 2rem;
+      border-radius: 40px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background .3s, color .3s;
+    }
+
+    .modal-close:hover { background: var(--rose); color: #fff; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      color: var(--rose);
+      opacity: .75;
+    }
+
+    /* ══════════════════════════════════════════
+       MISC UTIL
+    ══════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ -->
+<!--  BACKGROUND LAYER                   -->
+<!-- ═══════════════════════════════════ -->
+<div class="bg-gradient"></div>
+<canvas id="petalCanvas"></canvas>
+
+<!-- sparkles — generated by JS below -->
+<div class="sparkle-wrap" id="sparkleWrap"></div>
+
+<!-- ═══════════════════════════════════ -->
+<!--  MUSIC BUTTON                       -->
+<!-- ═══════════════════════════════════ -->
+<!-- ══ EDIT: swap the audio src URL with your music file ══ -->
+<button id="musicBtn" title="Toggle background music" aria-label="Toggle music">🎵</button>
+<audio id="bgAudio" loop>
+  <!-- ══ ADD your music file here, e.g.: ══
+       <source src="your-song.mp3" type="audio/mpeg"> -->
+</audio>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1 — HERO
+     ══ EDIT: Change the heading text below ══
+═══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <p class="hero-tag">From the depths of my heart Pratyusha…</p>
+
+  <!-- ══ EDIT: Main hero title ══ -->
+  <h1 class="hero-title">I'm Sorry</h1>
+
+  <div class="hero-heart">❤️</div>
+
+  <div class="hero-scroll-hint">
+    <span>Scroll Here..</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2 — APOLOGY LETTER
+     ══ EDIT: Change the letter text inside the variables in JS ══
+═══════════════════════════════════════════════════════════ -->
+<section id="letter">
+  <h2 class="section-title fade-in">A Letter from My Heart</h2>
+  <p class="section-sub fade-in">Words I should have said sooner…</p>
+  <div class="divider fade-in"></div>
+
+  <div class="letter-card glass fade-in">
+    <!-- ══ EDIT: Greeting name ══ -->
+    <p class="letter-greeting">Sweetheart,</p>
+
+    <!-- Typed text is injected by JS — edit LETTER_TEXT constant below -->
+    <p class="typed-text" >I know that things went sideways yesterday... I do not want to sideline things by writing this and thinking oh things are okay.. Let us surely sort things out love. I really do not feel okay if things are like this between us and i am sure u do not too.. I am sorry for irritating you yesterday, and upsetting you with my negligence as per you. I understood what u told me and ofc i wanted to explain myself that i was like this and this.. whatever that was, i do not wish to go into explanations and want to request you that can we please sort this out together? i know we can do better than this, I can do better than this.. please talk to me, my day begins with you and ends with your thoughts only, how do i feel if you are not talking to me. I know you have exams, and yesterday you got irritated with my talks of studies and all but baby you also know how hyper i get sometimes with all this... pressure and everything and i could not handle you in that.. that u are not well and have the exam pressure too.. please forgive me, let us sort this out and work together, then go on with our studies as we should.. and be there for each other please? I am so sorry.. I love you so so much baby... please talk to me today , at night? we can do that... SHWEEEETIEEEE PLEASEEEEEE... 
+    </p>
+    
+    <!-- ══ EDIT: Signature ══ -->
+    <p class="letter-sign">— Soumyadeep ❤️</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3 — REASONS I LOVE YOU
+     ══ EDIT: Update REASONS array in JS ══
+═══════════════════════════════════════════════════════════ -->
+<section id="reasons">
+  <h2 class="section-title fade-in">Reasons Why I Love You</h2>
+  <p class="section-sub fade-in">Let me count the ways…</p>
+  <div class="divider fade-in"></div>
+
+  <!-- Cards generated by JS from REASONS array -->
+  <div class="reasons-grid fade-in" id="reasonsGrid"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4 — MEMORY TIMELINE
+     ══ EDIT: Update MEMORIES array in JS ══
+     ══ EDIT: Replace memory-img background-image with your photos ══
+═══════════════════════════════════════════════════════════ -->
+<section id="memories">
+  <h2 class="section-title fade-in">Our Story</h2>
+  <p class="section-sub fade-in">Every moment I treasure…</p>
+  <div class="divider fade-in"></div>
+
+  <!-- Timeline generated by JS from MEMORIES array -->
+  <div class="timeline" id="timeline"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5 — CAN YOU FORGIVE ME?
+     ══ EDIT: Change text below and modal text in JS ══
+═══════════════════════════════════════════════════════════ -->
+<section id="forgive">
+  <p class="forgive-pre fade-in">I know I made a mistake…</p>
+
+  <!-- ══ EDIT: Final question heading ══ -->
+  <h2 class="forgive-title fade-in">Can you please forgive me? 🥺</h2>
+
+  <!-- ══ EDIT: Subtext ══ -->
+  <p class="forgive-sub fade-in">
+    I promise to be better. I promise to love you louder, hold you closer,
+    and never let you feel i am taking a single moment with you for granted.
+    You mean everything to me.
+  </p>
+
+  <button class="glow-btn fade-in" id="forgiveBtn" onclick="openModal()">
+    <span class="btn-ring"></span>
+    Yes, We can talk.. ❤️
+  </button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     THANK-YOU MODAL
+     ══ EDIT: Modal message in JS (MODAL_MSG) ══
+═══════════════════════════════════════════════════════════ -->
+<div id="thankModal" role="dialog" aria-modal="true">
+  <div class="modal-box glass">
+    <span class="modal-emoji">🌸</span>
+    <h3 class="modal-title" id="modalTitle">Thank you…</h3>
+    <p class="modal-text" id="modalText"></p>
+    <button class="modal-close" onclick="closeModal()">Close ❤️</button>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  Always yours..
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ██████  EDIT YOUR CONTENT HERE ██████
+═══════════════════════════════════════════════════════════ -->
+<script>
+"use strict";
+
+/* ─────────────────────────────────────────────────────────
+   ✏️  EDIT: Apology letter body text
+   Use \n for a new paragraph.
+───────────────────────────────────────────────────────── */
+const LETTER_TEXT = `I know that I hurt you, and there is nothing in this world that pains me more than seeing sadness in your eyes that I caused.
+
+I have replayed every moment, every word — and I wish with everything in me that I could go back and choose differently. But I cannot change the past. What I can do is stand here, heart open, and tell you how deeply, how completely sorry I am.
+
+You have always been my safe place, my greatest joy, my reason to be better every single day. Losing your smile — even for a moment — reminded me how much light you carry into my world.
+
+I am not perfect. But I am perfectly in love with you, and that will never waver. Please let me earn back your trust, one day at a time.
+
+All my love, now and always.`;
+
+/* ─────────────────────────────────────────────────────────
+   ✏️  EDIT: Reasons I Love You cards
+   { emoji, title, desc }
+───────────────────────────────────────────────────────── */
+const REASONS = [
+  {
+    emoji: "🌟",
+    title: "Your Radiant Soul",
+    desc: "The way kindness radiates from everything you do. It makes me fall for you every now and then."
+  },
+  {
+    emoji: "😂",
+    title: "Your Laughter",
+    desc: "The sound of your laugh and your voice is the best thing my ears have ever heard. It's my favourite song."
+  },
+  {
+    emoji: "💪",
+    title: "Your Strength",
+    desc: "You carry so much grace under pressure and everytime. You inspire me to be braver every day."
+  },
+  {
+    emoji: "🧠",
+    title: "Your Beautiful Mind",
+    desc: "The way you see the world - with curiosity, wonder and happiness - makes everything more magical."
+  },
+  {
+    emoji: "🤝",
+    title: "Your Loyalty",
+    desc: "You stand by the people you love. That is the rarest gift."
+  },
+  {
+    emoji: "🌸",
+    title: "Simply You",
+    desc: "Just being with you makes every ordinary moment feel like the most extraordinary gift."
+  }
+];
+
+/* ─────────────────────────────────────────────────────────
+   ✏️  EDIT: Memory timeline entries
+   { date, caption, text, emoji, img (optional URL) }
+───────────────────────────────────────────────────────── */
+const MEMORIES = [
+  {
+    date: "My Heart..",
+    caption: "<3",
+    text: "I remember thinking - this is someone special. I had no idea how right I was.",
+    emoji: "✨",
+    img: "us.jpg" /* ══ Replace with: "your-photo-1.jpg" ══ */
+  },
+  {
+    date: "A moment I'll never forget…",
+    caption: "Our First Adventure",
+    text: "We got lost together and knew something is far better - each other's company.",
+    emoji: "🗺️",
+    img: "adventure.jpg" /* ══ Replace with: "your-photo-2.jpg" ══ */
+  },
+  {
+    date: "Quiet magic…",
+    caption: "When Everything Felt Perfect",
+    text: "Just a stop and yet it was one of the most perfect moment of my life.",
+    emoji: "🌙",
+    img: "quietr.jpg" /* ══ Replace with: "your-photo-3.jpg" ══ */
+  },
+  
+];
+
+/* ─────────────────────────────────────────────────────────
+   ✏️  EDIT: Forgiveness modal message
+───────────────────────────────────────────────────────── */
+const MODAL_MSG = "You've no idea what this means to me. I promise I'll spend every day making sure you never doubt how much I love you. Thank you for giving me another chance. You are my everything. 🌸";
+
+/* ════════════════════════════════════════════════════════
+   RENDERER — build cards & timeline (do not edit below)
+════════════════════════════════════════════════════════ */
+
+// ── Reasons grid ──
+const grid = document.getElementById("reasonsGrid");
+REASONS.forEach(r => {
+  const card = document.createElement("div");
+  card.className = "reason-card glass fade-in";
+  card.innerHTML = `
+    <span class="reason-emoji">${r.emoji}</span>
+    <h3 class="reason-title">${r.title}</h3>
+    <p class="reason-desc">${r.desc}</p>
+  `;
+  grid.appendChild(card);
+});
+
+// ── Memory timeline ──
+const tl = document.getElementById("timeline");
+MEMORIES.forEach((m, i) => {
+  const item = document.createElement("div");
+  item.className = "memory-item fade-in";
+
+  const imgStyle = m.img
+    ? `background-image:url('${m.img}'); background-size:cover; background-position:center;`
+    : "";
+  const imgClass = m.img ? "memory-img has-photo" : "memory-img";
+
+  item.innerHTML = `
+    <div class="memory-content glass">
+      <div class="${imgClass}" style="${imgStyle}" aria-label="Memory photo ${i+1}"></div>
+      <p class="memory-date">${m.date}</p>
+      <h3 class="memory-caption">${m.emoji} ${m.caption}</h3>
+      <p class="memory-text">${m.text}</p>
+    </div>
+    <div class="memory-dot"></div>
+    <div class="memory-content"></div>
+  `;
+  tl.appendChild(item);
+});
+
+/* ════════════════════════════════════════════════════════
+   INTERSECTION OBSERVER — fade-in on scroll
+════════════════════════════════════════════════════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add("visible");
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+
+/* ════════════════════════════════════════════════════════
+   TYPING ANIMATION for letter
+════════════════════════════════════════════════════════ */
+const typedEl  = document.getElementById("typedContent");
+const cursorEl = document.getElementById("typedCursor");
+let typingStarted = false;
+
+const letterObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && !typingStarted) {
+    typingStarted = true;
+    typeText(LETTER_TEXT, typedEl, cursorEl, 22);
+    letterObserver.disconnect();
+  }
+}, { threshold: 0.3 });
+
+letterObserver.observe(document.getElementById("letter"));
+
+function typeText(text, el, cursor, speed) {
+  let i = 0;
+  function tick() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(tick, speed + Math.random() * 20);
+    } else {
+      cursor.style.display = "none";
+    }
+  }
+  tick();
+}
+
+/* ════════════════════════════════════════════════════════
+   PETAL CANVAS
+════════════════════════════════════════════════════════ */
+(function initPetals() {
+  const canvas  = document.getElementById("petalCanvas");
+  const ctx     = canvas.getContext("2d");
+  let W, H, petals = [];
+
+  const PETAL_COLORS = ["#f7c5d5","#e8748a","#d4b8e0","#ffd6e7","#fce4d6","#ede0f4"];
+  const COUNT = Math.min(window.innerWidth < 600 ? 28 : 55, 55);
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function mkPetal() {
+    return {
+      x:    Math.random() * W,
+      y:    Math.random() * H - H,
+      r:    Math.random() * 9 + 5,
+      color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)],
+      speed: Math.random() * 1.2 + 0.5,
+      wind:  (Math.random() - .5) * 1.2,
+      rot:   Math.random() * Math.PI * 2,
+      rotV:  (Math.random() - .5) * .04,
+      sway:  Math.random() * .8 + .4,
+      swayT: Math.random() * Math.PI * 2,
+      opacity: Math.random() * .5 + .4
+    };
+  }
+
+  function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.globalAlpha = p.opacity;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, p.r, p.r * 1.6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    // petal sheen
+    const g = ctx.createRadialGradient(-p.r*.3, -p.r*.4, 0, 0, 0, p.r*1.6);
+    g.addColorStop(0, "rgba(255,255,255,.4)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    petals.forEach(p => {
+      p.swayT += .015;
+      p.x += Math.sin(p.swayT) * p.sway + p.wind;
+      p.y += p.speed;
+      p.rot += p.rotV;
+      if (p.y > H + 20) { Object.assign(p, mkPetal(), { y: -20, x: Math.random() * W }); }
+      drawPetal(p);
+    });
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  for (let i = 0; i < COUNT; i++) { const p = mkPetal(); p.y = Math.random() * H; petals.push(p); }
+  window.addEventListener("resize", resize);
+  loop();
+})();
+
+/* ════════════════════════════════════════════════════════
+   SPARKLES
+════════════════════════════════════════════════════════ */
+(function initSparkles() {
+  const wrap = document.getElementById("sparkleWrap");
+  const N = 55;
+  for (let i = 0; i < N; i++) {
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --dur:${(Math.random()*5+3).toFixed(1)}s;
+      --delay:${(Math.random()*6).toFixed(1)}s;
+      width:${Math.random()*4+2}px;
+      height:${Math.random()*4+2}px;
+    `;
+    wrap.appendChild(s);
+  }
+})();
+
+/* ════════════════════════════════════════════════════════
+   MUSIC TOGGLE
+════════════════════════════════════════════════════════ */
+(function initMusic() {
+  const btn   = document.getElementById("musicBtn");
+  const audio = document.getElementById("bgAudio");
+  let playing = false;
+
+  btn.addEventListener("click", () => {
+    if (!audio.src && !audio.querySelector("source")) {
+      // no audio loaded — show friendly note
+      btn.textContent = "🔇";
+      btn.title = "Add a <source> tag inside #bgAudio to enable music";
+      setTimeout(() => { btn.textContent = "🎵"; btn.title = "Toggle background music"; }, 2500);
+      return;
+    }
+    if (playing) {
+      audio.pause();
+      btn.textContent = "🎵";
+    } else {
+      audio.volume = 0.35;
+      audio.play().catch(() => {});
+      btn.textContent = "🔊";
+    }
+    playing = !playing;
+  });
+})();
+
+/* ════════════════════════════════════════════════════════
+   MODAL
+════════════════════════════════════════════════════════ */
+document.getElementById("modalText").textContent = MODAL_MSG;
+
+function openModal() {
+  const modal = document.getElementById("thankModal");
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  // rain hearts
+  rainHearts();
+}
+
+function closeModal() {
+  document.getElementById("thankModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+// close on backdrop click
+document.getElementById("thankModal").addEventListener("click", e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+/* ════════════════════════════════════════════════════════
+   CONFETTI HEARTS on Forgive
+════════════════════════════════════════════════════════ */
+function rainHearts() {
+  for (let i = 0; i < 28; i++) {
+    setTimeout(() => {
+      const h = document.createElement("div");
+      h.style.cssText = `
+        position:fixed;
+        top:-30px;
+        left:${Math.random()*100}vw;
+        font-size:${Math.random()*1.5+1}rem;
+        z-index:9999;
+        pointer-events:none;
+        animation: heartFall ${Math.random()*2+2}s ease-in forwards;
+        opacity:1;
+      `;
+      h.textContent = ["❤️","🌸","💕","💖","🌺"][Math.floor(Math.random()*5)];
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 4000);
+    }, i * 120);
+  }
+}
+
+// inject heart-fall keyframes
+const kf = document.createElement("style");
+kf.textContent = `
+  @keyframes heartFall {
+    to { transform: translateY(110vh) rotate(${Math.random()*360}deg); opacity: 0; }
+  }
+`;
+document.head.appendChild(kf);
+</script>
+</body>
+</html>
